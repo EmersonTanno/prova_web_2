@@ -193,34 +193,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para configurar a paginação
     const setupPagination = (totalPages) => {
-        const paginationContainer = document.getElementById('pagination');
+        const paginationContainer = document.getElementById('pagination-container');
         paginationContainer.innerHTML = ''; // Limpa a paginação existente
-
+    
         const maxVisibleButtons = 10;
-
-        let startPage = 1//currentPage > halfVisible ? currentPage - halfVisible : 1;
-        let endPage = 10//currentPage + halfVisible <= totalPages ? currentPage + halfVisible : totalPages;
-        let lossPage = 0
-
-        if(currentPage == 1){
+    
+        let startPage = 1;
+        let endPage = 10;
+        let lossPage = 0;
+    
+        if (currentPage == 1) {
             startPage = 1;
             endPage = 10;
-        }else{
-            startPage = currentPage - maxVisibleButtons/2;
-            if(startPage < 1){
+        } else {
+            startPage = currentPage - maxVisibleButtons / 2;
+            if (startPage < 1) {
                 lossPage = startPage * (-1);
                 startPage = 1;
             }
-            endPage = currentPage + maxVisibleButtons/2 - 1 + lossPage;
-            if(endPage > totalPages){
+            endPage = currentPage + maxVisibleButtons / 2 - 1 + lossPage;
+            if (endPage > totalPages) {
                 endPage = totalPages;
             }
         }
-
-        if (endPage - startPage < maxVisibleButtons - 1) {
-            startPage = Math.max(1, endPage - maxVisibleButtons + 1);
-        }
-
+    
         // Adiciona botão de "Anterior" se não estiver na primeira página
         if (currentPage > 1) {
             const liElement = document.createElement('li');
@@ -228,29 +224,31 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = 'Anterior';
             button.addEventListener('click', () => {
                 currentPage--;
-               // updateUrlAndFetchNews();
-               displayNews(newsWithNumbers);
-               setupPagination(totalPages);
-            });
-            liElement.appendChild(button);
-            paginationContainer.appendChild(liElement);
-        }
-
-        for (let page = startPage; page <= endPage; page++) {
-            const liElement = document.createElement('li');
-            const button = document.createElement('button');
-            button.textContent = page;
-            button.style.backgroundColor = page === currentPage ? '#4682b4' : '';
-            button.addEventListener('click', () => {
-                currentPage = page;
-                //updateUrlAndFetchNews();
+                // updateUrlAndFetchNews();
                 displayNews(newsWithNumbers);
                 setupPagination(totalPages);
             });
             liElement.appendChild(button);
             paginationContainer.appendChild(liElement);
         }
-
+    
+        for (let page = startPage; page <= endPage; page++) {
+            const liElement = document.createElement('li');
+            const button = document.createElement('button');
+            button.textContent = page;
+            if (page === currentPage) {
+                button.classList.add('selected');
+            }
+            button.addEventListener('click', () => {
+                currentPage = page;
+                // updateUrlAndFetchNews();
+                displayNews(newsWithNumbers);
+                setupPagination(totalPages);
+            });
+            liElement.appendChild(button);
+            paginationContainer.appendChild(liElement);
+        }
+    
         // Adiciona botão de "Próximo" se não estiver na última página
         if (currentPage < totalPages) {
             const liElement = document.createElement('li');
@@ -258,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = 'Próximo';
             button.addEventListener('click', () => {
                 currentPage++;
-                //updateUrlAndFetchNews();
+                // updateUrlAndFetchNews();
                 displayNews(newsWithNumbers);
                 setupPagination(totalPages);
             });
@@ -266,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             paginationContainer.appendChild(liElement);
         }
     };
-
+    
     // Aplica os filtros e atualiza a URL
     applyFiltersButton.addEventListener('click', () => {
         const newUrlParams = new URLSearchParams(window.location.search);
