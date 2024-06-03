@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+header, footer {
+    background-color: #4682b4;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    position: relative;
+}
+
+main {
+    background-color: #f0f0f0;
+    padding: 2em;
+    max-width: 100ch;
+    margin: 0 auto;
+}
+
+p {
+    line-height: 1.6;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    position: relative;
+}
+
+.search-input {
+    padding: 0.5em 2em 0.5em 0.5em;
+    font-size: 1em;
+    border: none;
+    border-radius: 20px;
+    width: 300px;
+}
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.filter-container {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.filter-icon {
+    fill: white;
+    width: 24px;
+    height: 24px;
+}
+
+.filter-count {
+    margin-left: 0.5em;
+    background-color: red;
+    border-radius: 50%;
+    padding: 0.2em 0.5em;
+    font-size: 0.8em;
+}
+
+dialog {
+    padding: 1em;
+    border: none;
+    border-radius: 8px;
+    position: relative;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+form label {
+    display: block;
+    margin-top: 1em;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+menu {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1em;
+}
+
+menu button {
+    padding: 0.5em 1em;
+    border: none;
+    background-color: #4682b4;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#news-container {
+    margin-top: 2em;
+}
+
+.news-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 8px;
+}
+
+
+#news-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+#news-container li.news-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    background: #fff;
+}
+
+#news-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+#news-container h2 {
+    margin: 10px 0;
+}
+
+#news-container .read-more-button {
+    display: inline-block;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: #4682b4;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#news-container .read-more-button:hover {
+    background-color: #315f7c;
+}
