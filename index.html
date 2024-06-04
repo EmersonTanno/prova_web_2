@@ -11,7 +11,7 @@
         <h1>Portal de Notícias do IBGE</h1>
         <form class="search-form" action="#" method="get">
             <input type="text" placeholder="Buscar..." class="search-input" id="search-input">
-            <button type="submit" class="search-button">🔍</button>
+            <button type="submit" class="search-button" id = "lupa">🔍</button>
         </form>
         <div class="filter-container">
             <svg class="filter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -22,16 +22,14 @@
         <dialog id="filter-dialog">
             <form id="filter-form">
                 <button type="button" class="close-button">✖️</button>
-                <label for="category">Categoria:</label>
-                <input type="text" id="category" name="category">
-                <label for="type">Tipo:</label>
-                <select id="type" name="type">
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo">
+                    <option value=null>-</option>
                     <option value="noticia">Notícia</option>
-                    <option value="comunicado">Comunicado</option>
-                    <option value="nota">Nota</option>
+                    <option value="release">Releases</option>
                 </select>
-                <label for="quantity">Quantidade:</label>
-                <select id="quantity" name="quantity">
+                <label for="qtd">Quantidade:</label>
+                <select id="qtd" name="qtd">
                     <option value="5">5</option>
                     <option value="10" selected>10</option>
                     <option value="15">15</option>
