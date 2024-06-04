@@ -136,21 +136,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const calculateTimeSincePublished = (dateString) => {
         const parseDate = (dateString) => {
-            const [datePart, timePart] = dateString.split(' ');
+            const [datePart] = dateString.split(' ');
             const [day, month, year] = datePart.split('/');
-            return new Date(`${year}-${month}-${day}T${timePart}`);
+            return new Date(year, month - 1, day);
         };
-
+    
         const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const publishedDate = parseDate(dateString);
-
+    
         if (isNaN(publishedDate)) {
             return 'Data inválida';
         }
-
-        const diffTime = now - publishedDate;
+    
+        const diffTime = today - publishedDate;
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
+    
         if (diffDays === 0) {
             return 'Publicado hoje';
         } else if (diffDays === 1) {
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return `Publicado há ${diffDays} dias`;
         }
     };
-
+    
     const displayNews = (news) => {
         newsContainer.innerHTML = '<ul></ul>';
         const ulElement = newsContainer.querySelector('ul');
@@ -182,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="${imageUrl}" alt="${item.titulo}">
                 <h2>${item.titulo}</h2>
                 <p>${item.introducao}</p>
-                <p>Editorias: ${item.editorias}</p>
+                <p>Editorias: #${item.editorias}</p>
                 <p>${calculateTimeSincePublished(item.data_publicacao)}</p>
                 <a href="${item.link}" target="_blank" class="read-more-button">Leia Mais</a>
             `;
