@@ -63,32 +63,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const applyUrlParamsToInputs = () => {
         const urlParams = new URLSearchParams(window.location.search);
         let activeFiltersCount = 0;
-
+    
+        const updateFilterCount = () => {
+            let count = 0;
+            if (searchInput.value) count++;
+            if (tipoInput.value && tipoInput.value != "null") count++;
+            if (qtdInput.value) count++;
+            if (fromInput.value) count++;
+            if (toInput.value) count++;
+            filterCountElement.textContent = count;
+        };
+    
         urlParams.forEach((value, key) => {
-            if (key !== 'page' && key !== 'busca') {
-                activeFiltersCount++;
-            }
             if (key === 'busca') {
                 searchInput.value = value;
-            } else if (key === 'category') {
-                categoryInput.value = value;
             } else if (key === 'tipo') {
                 tipoInput.value = value;
             } else if (key === 'qtd') {
                 qtdInput.value = value;
-                quantity = parseInt(value); // Ajuste a variável quantity
+                quantity = parseInt(value); 
             } else if (key === 'de') {
                 fromInput.value = value;
             } else if (key === 'ate') {
                 toInput.value = value;
             }
         });
-
-        if (activeFiltersCount > 0) {
-            filterCountElement.textContent = activeFiltersCount;
-        } else {
-            filterCountElement.textContent = '';
-        }
+    
+        updateFilterCount();
+    
+        searchInput.addEventListener('input', updateFilterCount);
+        tipoInput.addEventListener('change', updateFilterCount);
+        qtdInput.addEventListener('input', updateFilterCount);
+        fromInput.addEventListener('input', updateFilterCount);
+        toInput.addEventListener('input', updateFilterCount);
     };
 
     const fetchNews = async () => {
@@ -216,6 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 startPage = 1;
             }
             endPage = currentPage + maxVisibleButtons / 2 - 1 + lossPage;
+            if(startPage == 1){
+                endPage = 10;
+            }
             if (endPage > totalPage) {
                 endPage = totalPage;
             }
