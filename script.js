@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const applyUrlParamsToInputs = () => {
         const urlParams = new URLSearchParams(window.location.search);
-        let activeFiltersCount = 0;
     
         const updateFilterCount = () => {
             let count = 0;
