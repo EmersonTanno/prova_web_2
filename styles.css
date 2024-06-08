@@ -42,7 +42,8 @@ p {
     font-size: 1em;
     border: none;
     border-radius: 20px 0 0 20px;
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     background-color: #fff;
     height: 40px; 
     box-sizing: border-box;
@@ -76,7 +77,6 @@ p {
     height: 20px;
 }
 
-
 .filter-container {
     position: absolute;
     top: 1em;
@@ -84,6 +84,14 @@ p {
     display: flex;
     align-items: center;
     cursor: pointer;
+}
+
+#filter-form{
+    padding: 1em;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
 }
 
 .filter-icon {
@@ -101,12 +109,15 @@ p {
     font-size: 0.8em;
 }
 
-
 dialog {
-    padding: 1em;
+    padding: 3em;
     border: none;
     border-radius: 8px;
-    position: relative;
+    position: fixed;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    background: white; 
 }
 
 dialog::backdrop {
@@ -138,8 +149,9 @@ form input, form select {
 
 menu {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; 
     margin-top: 1em;
+    width: 100%; 
 }
 
 menu button {
@@ -151,7 +163,7 @@ menu button {
     cursor: pointer;
 }
 
-/*news*/
+
 #news-container {
     margin-top: 2em;
 }
@@ -163,7 +175,6 @@ menu button {
     margin-bottom: 1em;
     border-radius: 8px;
 }
-
 
 #news-container ul {
     list-style: none;
@@ -201,14 +212,12 @@ menu button {
     background-color: #315f7c;
 }
 
-/*pagination*/
 #pagination-container {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     list-style-type: none;
 }
-
 
 #pagination-container li {
     margin: 0 5px;
@@ -232,4 +241,38 @@ menu button {
     background-color: #4682b4;
     color: white;
     cursor: default;
+}
+
+@media (max-width: 760px) {
+  
+    .search-input {
+        width: calc(100% - 40px);
+        border-radius: 20px;
+        margin-bottom: 10px;
+    }
+
+    .search-button {
+        width: 100%;
+        margin-top: 0;
+        border-radius: 20px;
+    }
+
+    .filter-container {
+        top: 1em;
+        right: 1em;
+    }
+
+    dialog form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+}
+
+@media (min-width: 761px) {
+    dialog form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+    }
 }
