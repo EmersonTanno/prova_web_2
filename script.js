@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeButton = document.querySelector('.close-button');
     const newsContainer = document.getElementById('news-container');
 
-    let quantity = 10; // Inicializa a variável de quantidade
+    let quantity = 10; 
     let currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
     let totalPage = 0;
 
@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toInput.addEventListener('input', updateFilterCount);
     };
 
+    //função fetch
     const fetchNews = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         let apiUrl = 'https://servicodados.ibge.gov.br/api/v3/noticias?';
@@ -113,10 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (urlParams.has('qtd')) {
             params.set('qtd', urlParams.get('qtd'));
-            quantity = parseInt(urlParams.get('qtd')); // Ajuste a variável quantity
+            quantity = parseInt(urlParams.get('qtd')); 
         } else {
-            params.set('qtd', '10'); // Define o valor padrão para 10 notícias
-            quantity = 10; // Ajuste a variável quantity
+            params.set('qtd', '10'); 
+            quantity = 10; 
         }
         if (urlParams.has('de')) {
             params.set('de', urlParams.get('de'));
@@ -127,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         params.set('page', currentPage);
         apiUrl += params.toString();
-        console.log(apiUrl)
     
         try {
             const response = await fetch(apiUrl);
@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    //função para calcular o tempo de publicação
     const calculateTimeSincePublished = (dateString) => {
         const parseDate = (dateString) => {
             const [datePart] = dateString.split(' ');
@@ -167,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
+    //função para mostrar as notícias
     const displayNews = (news) => {
         newsContainer.innerHTML = '<ul></ul>';
         const ulElement = newsContainer.querySelector('ul');
@@ -202,9 +204,10 @@ document.addEventListener('DOMContentLoaded', () => {
         newsContainer.appendChild(paginationContainer);
     };
 
+    //função para fazer a paginação
     const setupPagination = (totalPage) => {
         const paginationContainer = document.getElementById('pagination-container');
-        paginationContainer.innerHTML = ''; // Limpa a paginação existente
+        paginationContainer.innerHTML = ''; 
 
         const maxVisibleButtons = 10;
 
@@ -298,10 +301,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (qtdInput.value) {
             newUrlParams.set('qtd', qtdInput.value);
-            quantity = parseInt(qtdInput.value); // Atualiza a variável quantity
+            quantity = parseInt(qtdInput.value); 
         } else {
             newUrlParams.set('qtd', '10');
-            quantity = 10; // Define o valor padrão se não estiver especificado
+            quantity = 10; 
         }
 
         if (fromInput.value) {
