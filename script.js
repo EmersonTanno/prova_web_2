@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchNews = async () => {
         const urlParams = new URLSearchParams(window.location.search);
-        let apiUrl = 'http://servicodados.ibge.gov.br/api/v3/noticias?';
+        let apiUrl = 'https://servicodados.ibge.gov.br/api/v3/noticias?'; // Alterado para HTTPS
         let params = new URLSearchParams();
     
         if (urlParams.has('busca')) {
@@ -233,12 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentPage > 1) {
             const liElement = document.createElement('li');
             const button = document.createElement('button');
-            button.textContent = 'Anterior';
-            button.addEventListener('click', () => {
-                currentPage--;
-                updatePageInUrl();
-                fetchAndDisplayNews();
-            });
+            button.textContent = '<<';
+            button.onclick = () => changePage(currentPage - 1);
             liElement.appendChild(button);
             paginationContainer.appendChild(liElement);
         }
@@ -247,14 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const liElement = document.createElement('li');
             const button = document.createElement('button');
             button.textContent = page;
+            button.onclick = () => changePage(page);
+
             if (page === currentPage) {
                 button.classList.add('selected');
             }
-            button.addEventListener('click', () => {
-                currentPage = page;
-                updatePageInUrl();
-                fetchAndDisplayNews();
-            });
+
+            if (page === currentPage) {
+                button.disabled = true;
+            }
+
             liElement.appendChild(button);
             paginationContainer.appendChild(liElement);
         }
@@ -262,72 +260,58 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentPage < totalPage) {
             const liElement = document.createElement('li');
             const button = document.createElement('button');
-            button.textContent = 'Próximo';
-            button.addEventListener('click', () => {
-                currentPage++;
-                updatePageInUrl();
-                fetchAndDisplayNews();
-            });
+            button.textContent = '>>';
+            button.onclick = () => changePage(currentPage + 1);
             liElement.appendChild(button);
             paginationContainer.appendChild(liElement);
         }
     };
 
-    const updatePageInUrl = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('page', currentPage);
-        window.history.pushState({}, '', `?${urlParams.toString()}`);
-    };
-
-    const applyFilters = () => {
-        const newUrlParams = new URLSearchParams();
-
-        if (searchInput.value) {
-            newUrlParams.set('busca', searchInput.value);
-        }
-
-        if (tipoInput.value) {
-            newUrlParams.set('tipo', tipoInput.value);
-        } else {
-            newUrlParams.delete('tipo');
-        }
-
-        if (qtdInput.value) {
-            newUrlParams.set('qtd', qtdInput.value);
-            quantity = parseInt(qtdInput.value); // Atualiza a variável quantity
-        } else {
-            newUrlParams.set('qtd', '10');
-            quantity = 10; // Define o valor padrão se não estiver especificado
-        }
-
-        if (fromInput.value) {
-            newUrlParams.set('de', fromInput.value);
-        } else {
-            newUrlParams.delete('de');
-        }
-
-        if (toInput.value) {
-            newUrlParams.set('ate', toInput.value);
-        } else {
-            newUrlParams.delete('ate');
-        }
-
-        newUrlParams.set('page', 1);
-        currentPage = 1;
-
-        window.history.pushState({}, '', `?${newUrlParams.toString()}`);
-        filterDialog.close();
+    const changePage = (page) => {
+        currentPage = page;
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('page', page);
+        window.history.pushState({}, '', `?${searchParams.toString()}`);
         fetchAndDisplayNews();
     };
 
     const fetchAndDisplayNews = async () => {
         const news = await fetchNews();
         displayNews(news);
-        totalPages = Math.ceil(news.length / quantity);
         setupPagination(totalPage);
     };
 
-    applyFiltersButton.addEventListener('click', applyFilters);
+    applyFiltersButton.addEventListener('click', () => {
+        const searchParams = new URLSearchParams(window.location.search);
+
+        if (tipoInput.value) {
+            searchParams.set('tipo', tipoInput.value);
+        } else {
+            searchParams.delete('tipo');
+        }
+        if (qtdInput.value) {
+            searchParams.set('qtd', qtdInput.value);
+        } else {
+            searchParams.delete('qtd');
+        }
+        if (fromInput.value) {
+            searchParams.set('de', fromInput.value);
+        } else {
+            searchParams.delete('de');
+        }
+        if (toInput.value) {
+            searchParams.set('ate', toInput.value);
+        } else {
+            searchParams.delete('ate');
+        }
+
+        currentPage = 1;
+        searchParams.set('page', currentPage);
+
+        window.history.pushState({}, '', `?${searchParams.toString()}`);
+        filterDialog.close();
+        fetchAndDisplayNews();
+    });
 
     applyUrlParamsToInputs();
     fetchAndDisplayNews();
